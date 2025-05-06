@@ -1,0 +1,2 @@
+/Users/admin/Projects/hwc-barber-backend/src/test/kotlin/com/hwc/barber/controller/ReviewControllerTest.kt
+/Users/admin/Projects/hwc-barber-backend/src/test/kotlin/com/hwc/barber/service/ReviewServiceTest.kt
