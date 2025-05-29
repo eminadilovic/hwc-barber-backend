@@ -9,9 +9,8 @@ import java.time.LocalDateTime
 data class ReviewDTO(
     val id: Long,
     val shopId: Long,
-    val customerId: Long,
-    val customerName: String,
-    val employeeId: Long?,
+    val userId: Long,
+    val userName: String,
     val rating: Int,
     val comment: String?,
     val createdAt: LocalDateTime,
@@ -24,9 +23,7 @@ data class ReviewCreateDTO(
     val rating: Int,
     
     @field:Size(max = 1000)
-    val comment: String?,
-
-    val employeeId: Long?
+    val comment: String?
 )
 
 data class ReviewUpdateDTO(
@@ -35,7 +32,5 @@ data class ReviewUpdateDTO(
     val rating: Int?,
     
     @field:Size(max = 1000)
-    val comment: String?,
-
-    val employeeId: Long?
+    val comment: String?
 ) 

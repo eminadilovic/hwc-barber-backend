@@ -38,7 +38,7 @@ class JwtUtils {
     }
 
     fun getUsernameFromToken(token: String): String {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
             .setSigningKey(getSigningKey())
             .build()
             .parseClaimsJws(token)
@@ -52,7 +52,7 @@ class JwtUtils {
     }
 
     private fun isTokenExpired(token: String): Boolean {
-        val expiration = Jwts.parser()
+        val expiration = Jwts.parserBuilder()
             .setSigningKey(getSigningKey())
             .build()
             .parseClaimsJws(token)

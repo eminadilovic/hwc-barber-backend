@@ -28,26 +28,39 @@ data class Booking(
     val service: Service,
 
     @field:NotNull
-    @Column(nullable = false)
+    @Column(name = "start_time", nullable = false)
     var startTime: LocalDateTime,
 
     @field:NotNull
-    @Column(nullable = false)
+    @Column(name = "end_time", nullable = false)
     var endTime: LocalDateTime,
 
     @Column(length = 500)
     var notes: String? = null,
 
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     var status: BookingStatus = BookingStatus.PENDING,
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
-    @Column(nullable = false)
+    @Column(name = "updated_at", nullable = false)
     var updatedAt: LocalDateTime = LocalDateTime.now()
 ) {
+    constructor() : this(
+        shop = Shop(),
+        customer = User(),
+        employee = Employee(),
+        service = Service(),
+        startTime = LocalDateTime.now(),
+        endTime = LocalDateTime.now(),
+        notes = null,
+        status = BookingStatus.PENDING,
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now()
+    )
+
     @PreUpdate
     fun preUpdate() {
         updatedAt = LocalDateTime.now()

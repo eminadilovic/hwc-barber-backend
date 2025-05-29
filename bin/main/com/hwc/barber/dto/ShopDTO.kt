@@ -15,7 +15,8 @@ data class ShopDTO(
     val zipCode: String,
     val phoneNumber: String,
     val email: String,
-    val imageUrl: String?,
+    val logoUrl: String?,
+    val imageUrls: List<String>,
     val description: String?,
     val openingTime: String?,
     val closingTime: String?,
@@ -54,7 +55,9 @@ data class ShopCreateDTO(
     
     val email: String,
     
-    val imageUrl: String? = null,
+    val logoUrl: String? = null,
+    
+    val imageUrls: List<String> = emptyList(),
     
     @field:NotBlank
     @field:Size(max = 500)
@@ -89,7 +92,9 @@ data class ShopUpdateDTO(
     
     val email: String? = null,
     
-    val imageUrl: String? = null,
+    val logoUrl: String? = null,
+    
+    val imageUrls: List<String>? = null,
     
     @field:Size(max = 500)
     val description: String? = null,

@@ -29,10 +29,9 @@ data class User(
     @Column(nullable = false, unique = true)
     var email: String,
 
-    @NotBlank
     @Size(max = 100)
-    @Column(nullable = false)
-    var password: String,
+    @Column(nullable = true)
+    var password: String? = null,
 
     @Size(max = 20)
     @Column(name = "phone_number")
@@ -54,18 +53,48 @@ data class User(
     @Column(name = "updated_at", nullable = false)
     var updatedAt: LocalDateTime = LocalDateTime.now(),
 
+    @Column(name = "google_id", unique = true)
+    var googleId: String? = null,
+
+    @Column(name = "auth_provider")
+    @Enumerated(EnumType.STRING)
+    var authProvider: AuthProvider = AuthProvider.LOCAL,
+
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL])
+    var employee: Employee? = null,
+
     @OneToMany(mappedBy = "owner", cascade = [CascadeType.ALL], orphanRemoval = true)
     val shops: MutableSet<Shop> = mutableSetOf(),
 
     @OneToMany(mappedBy = "customer", cascade = [CascadeType.ALL], orphanRemoval = true)
     val bookings: MutableSet<Booking> = mutableSetOf(),
 
-    @OneToMany(mappedBy = "customer", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
     val reviews: MutableSet<Review> = mutableSetOf(),
 
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
     val favoriteShops: MutableSet<FavoriteShop> = mutableSetOf()
-)
+) {
+    constructor() : this(
+        firstName = "",
+        lastName = "",
+        email = "",
+        password = null,
+        phoneNumber = null,
+        imageUrl = null,
+        role = UserRole.CUSTOMER,
+        isActive = true,
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now(),
+        googleId = null,
+        authProvider = AuthProvider.LOCAL,
+        employee = null,
+        shops = mutableSetOf(),
+        bookings = mutableSetOf(),
+        reviews = mutableSetOf(),
+        favoriteShops = mutableSetOf()
+    )
+}
 
 enum class UserRole {
     ADMIN,

@@ -1,0 +1,53 @@
+# Environment variables
+.env
+.env.*
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# Build files
+build/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Google Cloud credentials
+*credentials*.json
+*key*.json
+
+# Compiled files
+*.class
+*.jar
+*.war
+*.ear
+
+# Test reports
+test-output/
+reports/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Application specific
+application-*.properties
+application-*.yml
+!application-example.properties
+!application-example.yml 

@@ -15,23 +15,20 @@ import org.mapstruct.NullValuePropertyMappingStrategy
 )
 interface ReviewMapper {
     @Mapping(target = "shopId", source = "shop.id")
-    @Mapping(target = "customerId", source = "customer.id")
-    @Mapping(target = "customerName", expression = "java(review.getCustomer().getFirstName() + \" \" + review.getCustomer().getLastName())")
-    @Mapping(target = "employeeId", source = "employee.id")
+    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "userName", expression = "java(review.getUser().getFirstName() + \" \" + review.getUser().getLastName())")
     fun toDTO(review: Review): ReviewDTO
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "shop", ignore = true)
-    @Mapping(target = "customer", ignore = true)
-    @Mapping(target = "employee", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     fun toEntity(reviewCreateDTO: ReviewCreateDTO): Review
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "shop", ignore = true)
-    @Mapping(target = "customer", ignore = true)
-    @Mapping(target = "employee", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     fun updateEntity(@MappingTarget review: Review, reviewUpdateDTO: ReviewUpdateDTO)

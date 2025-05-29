@@ -4,9 +4,11 @@ import com.hwc.barber.dto.*
 import com.hwc.barber.exception.ResourceNotFoundException
 import com.hwc.barber.model.User
 import com.hwc.barber.model.UserRole
+import com.hwc.barber.model.AuthProvider
 import com.hwc.barber.model.FavoriteShop
 import com.hwc.barber.repository.UserRepository
 import com.hwc.barber.repository.ShopRepository
+import com.hwc.barber.security.UserPrincipal
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -30,11 +32,7 @@ class UserServiceImpl(
         val user = userRepository.findByEmail(email)
             ?: throw UsernameNotFoundException("User not found with email: $email")
         
-        return org.springframework.security.core.userdetails.User(
-            user.email,
-            user.password,
-            listOf(SimpleGrantedAuthority("ROLE_${user.role.name}"))
-        )
+        return UserPrincipal.create(user)
     }
 
     override fun getAllUsers(): List<UserDTO> {
@@ -53,13 +51,42 @@ class UserServiceImpl(
             ?: throw ResourceNotFoundException("User not found with email: $email")
     }
 
+    override fun findByEmail(email: String): UserDTO? {
+        return userRepository.findByEmail(email)?.toDTO()
+    }
+
+    override fun createOAuth2User(email: String, name: String): UserDTO {
+        val nameParts = name.split(" ")
+        val firstName = nameParts.firstOrNull() ?: ""
+        val lastName = nameParts.drop(1).joinToString(" ")
+        
+        val user = User(
+            email = email,
+            password = passwordEncoder.encode(generateRandomPassword()),
+            firstName = firstName,
+            lastName = lastName,
+            role = UserRole.CUSTOMER,
+            authProvider = AuthProvider.GOOGLE
+        )
+        
+        return userRepository.save(user).toDTO()
+    }
+
+    private fun generateRandomPassword(): String {
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..16)
+            .map { allowedChars.random() }
+            .joinToString("")
+    }
+
     override fun createUser(userCreateDTO: UserCreateDTO): UserDTO {
         val user = User(
             email = userCreateDTO.email,
             password = passwordEncoder.encode(userCreateDTO.password),
             firstName = userCreateDTO.firstName,
             lastName = userCreateDTO.lastName,
-            role = userCreateDTO.role
+            role = userCreateDTO.role,
+            authProvider = AuthProvider.LOCAL
         )
         return userRepository.save(user).toDTO()
     }
@@ -137,7 +164,7 @@ class UserServiceImpl(
     }
 
     override fun getReviews(userId: Long): List<ReviewDTO> {
-        return reviewService.getReviewsByCustomer(userId)
+        return reviewService.getReviewsByUser(userId)
     }
 
     override fun getShops(userId: Long): List<ShopDTO> {
@@ -153,6 +180,8 @@ class UserServiceImpl(
         role = role,
         imageUrl = imageUrl,
         isActive = isActive,
+        authProvider = authProvider,
+        googleId = googleId,
         createdAt = createdAt,
         updatedAt = updatedAt
     )

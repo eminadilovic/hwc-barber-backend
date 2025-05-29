@@ -44,9 +44,6 @@ data class Shop(
     @Column(name = "email")
     var email: String? = null,
 
-    @Column(name = "image_url")
-    var imageUrl: String? = null,
-
     @Column(name = "rating")
     var rating: Double = 0.0,
 
@@ -78,6 +75,9 @@ data class Shop(
     @OneToMany(mappedBy = "shop", cascade = [CascadeType.ALL], orphanRemoval = true)
     val favoriteByUsers: MutableSet<FavoriteShop> = mutableSetOf(),
 
+    @OneToMany(mappedBy = "shop", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val images: MutableSet<ShopImage> = mutableSetOf(),
+
     @NotBlank
     @Size(max = 50)
     @Column(name = "state", nullable = false)
@@ -96,5 +96,41 @@ data class Shop(
 
     @Size(max = 200)
     @Column(name = "website")
-    var website: String? = null
-) 
+    var website: String? = null,
+
+    @Size(max = 500)
+    @Column(name = "logo_url")
+    var logoUrl: String? = null,
+
+    @ElementCollection
+    @CollectionTable(name = "shop_images", joinColumns = [JoinColumn(name = "shop_id")])
+    @Column(name = "image_url")
+    var imageUrls: MutableSet<String> = mutableSetOf()
+) {
+    constructor() : this(
+        name = "",
+        description = "",
+        address = "",
+        city = "",
+        phoneNumber = "",
+        email = null,
+        rating = 0.0,
+        totalReviews = 0,
+        owner = User(),
+        isActive = true,
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now(),
+        employees = mutableSetOf(),
+        services = mutableSetOf(),
+        reviews = mutableSetOf(),
+        favoriteByUsers = mutableSetOf(),
+        images = mutableSetOf(),
+        state = "",
+        zipCode = "",
+        openingTime = null,
+        closingTime = null,
+        website = null,
+        logoUrl = null,
+        imageUrls = mutableSetOf()
+    )
+} 

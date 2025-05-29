@@ -24,5 +24,15 @@ data class FavoriteShop(
     val shop: Shop,
 
     @Column(name = "created_at", nullable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now()
-) 
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+
+    @Column(name = "updated_at", nullable = false)
+    var updatedAt: LocalDateTime = LocalDateTime.now()
+) {
+    constructor() : this(
+        user = User(),
+        shop = Shop(),
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now()
+    )
+} 

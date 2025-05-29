@@ -12,6 +12,8 @@ fun User.toDTO() = UserDTO(
     role = role,
     imageUrl = imageUrl,
     isActive = isActive,
+    authProvider = authProvider,
+    googleId = googleId,
     createdAt = createdAt,
     updatedAt = updatedAt
 ) 

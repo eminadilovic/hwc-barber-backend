@@ -41,6 +41,10 @@ data class Employee(
     @Column(name = "is_active", nullable = false)
     var isActive: Boolean = true,
 
+    @Column(name = "invitation_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    var invitationStatus: EmployeeInvitationStatus = EmployeeInvitationStatus.PENDING,
+
     @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
@@ -56,8 +60,32 @@ data class Employee(
     val services: MutableSet<Service> = mutableSetOf(),
 
     @OneToMany(mappedBy = "employee", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val bookings: MutableSet<Booking> = mutableSetOf(),
+    val timeOffs: MutableSet<TimeOff> = mutableSetOf(),
 
     @OneToMany(mappedBy = "employee", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val reviews: MutableSet<Review> = mutableSetOf()
-) 
+    val bookings: MutableSet<Booking> = mutableSetOf()
+) {
+    constructor() : this(
+        shop = Shop(),
+        user = User(),
+        position = "",
+        bio = null,
+        imageUrl = null,
+        rating = 0.0,
+        totalReviews = 0,
+        isActive = true,
+        invitationStatus = EmployeeInvitationStatus.PENDING,
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now(),
+        services = mutableSetOf(),
+        timeOffs = mutableSetOf(),
+        bookings = mutableSetOf()
+    )
+}
+
+enum class EmployeeInvitationStatus {
+    PENDING,    // Invitation sent but not accepted
+    ACCEPTED,   // Invitation accepted
+    REJECTED,   // Invitation rejected
+    EXPIRED     // Invitation expired
+} 

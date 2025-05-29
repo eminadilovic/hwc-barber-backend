@@ -8,12 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails
 class UserPrincipal(
     val id: Long,
     private val email: String,
-    private val password: String,
+    private val password: String?,
     private val authorities: Collection<GrantedAuthority>
 ) : UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority> = authorities
-    override fun getPassword(): String = password
+    override fun getPassword(): String = password ?: ""
     override fun getUsername(): String = email
     override fun isAccountNonExpired(): Boolean = true
     override fun isAccountNonLocked(): Boolean = true

@@ -1,0 +1,9 @@
+flyway_schema_history
+reviews
+favorite_shops
+employee_services
+bookings
+services
+employees
+shops
+users

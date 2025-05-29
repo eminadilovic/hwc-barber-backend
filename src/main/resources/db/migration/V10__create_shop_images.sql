@@ -1,0 +1,9 @@
+CREATE TABLE shop_images (
+    id BIGSERIAL PRIMARY KEY,
+    shop_id BIGINT NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    is_logo BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    CONSTRAINT fk_shop FOREIGN KEY (shop_id) REFERENCES shops(id) ON DELETE CASCADE
+); 

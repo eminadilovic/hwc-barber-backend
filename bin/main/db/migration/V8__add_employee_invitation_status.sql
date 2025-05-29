@@ -1,0 +1,2 @@
+ALTER TABLE employees
+ADD COLUMN invitation_status VARCHAR(20) NOT NULL DEFAULT 'PENDING'; 

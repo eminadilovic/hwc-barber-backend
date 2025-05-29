@@ -29,6 +29,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -43,12 +46,27 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
     
-    // AWS S3
-    implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+    // Google Cloud
+    implementation("com.google.cloud:google-cloud-storage:2.30.0")
+    implementation("com.google.cloud:google-cloud-secretmanager:2.30.0")
+    implementation("org.springframework.cloud:spring-cloud-gcp-starter:1.2.8.RELEASE")
+    
+    // Twilio
+    implementation("com.twilio.sdk:twilio:9.14.1")
+    
+    // Redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("redis.clients:jedis:5.1.0")
+    
+    // Rate Limiting
+    implementation("com.google.guava:guava:32.1.3-jre")
     
     // Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.testcontainers:testcontainers:1.19.7")
+    testImplementation("org.testcontainers:postgresql:1.19.7")
+    testImplementation("org.testcontainers:junit-jupiter:1.19.7")
     
     // MapStruct
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
@@ -56,6 +74,16 @@ dependencies {
     
     // Documentation
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+    
+    // Monitoring and Metrics
+    implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation("io.micrometer:micrometer-tracing-bridge-brave")
+    implementation("io.zipkin.reporter2:zipkin-reporter-brave")
+
+    // Google ID Token verification
+    implementation("com.google.api-client:google-api-client:2.2.0")
+    implementation("com.google.oauth-client:google-oauth-client:1.34.1")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
 }
 
 tasks.whenTaskAdded {

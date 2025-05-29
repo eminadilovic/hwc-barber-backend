@@ -10,9 +10,8 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ReviewRepository : JpaRepository<Review, Long> {
     fun findByShopId(shopId: Long): List<Review>
-    fun findByCustomerId(customerId: Long): List<Review>
+    fun findByUserId(userId: Long): List<Review>
     fun findByRating(rating: Int): List<Review>
-    fun findByShopIdAndCustomerId(shopId: Long, customerId: Long): List<Review>
     
     @Query("SELECT COUNT(r) FROM Review r WHERE r.shop.id = :shopId")
     fun countByShopId(@Param("shopId") shopId: Long): Long

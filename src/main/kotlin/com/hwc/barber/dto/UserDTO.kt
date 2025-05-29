@@ -1,6 +1,7 @@
 package com.hwc.barber.dto
 
 import com.hwc.barber.model.UserRole
+import com.hwc.barber.model.AuthProvider
 import java.time.LocalDateTime
 import jakarta.validation.constraints.*
 
@@ -14,7 +15,9 @@ data class UserDTO(
     val imageUrl: String?,
     val isActive: Boolean,
     val createdAt: LocalDateTime,
-    val updatedAt: LocalDateTime
+    val updatedAt: LocalDateTime,
+    val authProvider: AuthProvider,
+    val googleId: String?
 )
 
 data class UserCreateDTO(
@@ -31,14 +34,15 @@ data class UserCreateDTO(
     @field:Size(max = 100, message = "Email cannot exceed 100 characters")
     val email: String,
 
-    @field:NotBlank(message = "Password is required")
     @field:Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters")
-    val password: String,
+    val password: String? = null,
 
     @field:Size(max = 20, message = "Phone number cannot exceed 20 characters")
     val phoneNumber: String? = null,
 
-    val role: UserRole = UserRole.CUSTOMER
+    val role: UserRole = UserRole.CUSTOMER,
+    val authProvider: AuthProvider = AuthProvider.LOCAL,
+    val googleId: String? = null
 )
 
 data class UserUpdateDTO(
@@ -56,7 +60,9 @@ data class UserUpdateDTO(
 
 data class UserLoginDTO(
     val email: String,
-    val password: String
+    val password: String? = null,
+    val googleId: String? = null,
+    val authProvider: AuthProvider = AuthProvider.LOCAL
 )
 
 data class UserTokenDTO(

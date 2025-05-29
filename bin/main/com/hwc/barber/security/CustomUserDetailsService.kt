@@ -19,15 +19,7 @@ class CustomUserDetailsService(
         val user = userRepository.findByEmail(email)
             ?: throw ResourceNotFoundException("User not found with email: $email")
         
-        return org.springframework.security.core.userdetails.User(
-            user.email,
-            user.password,
-            user.isActive,
-            true,
-            true,
-            true,
-            listOf(SimpleGrantedAuthority("ROLE_${user.role.name}"))
-        )
+        return UserPrincipal.create(user)
     }
 
     fun loadUserById(id: Long): User {

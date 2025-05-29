@@ -54,6 +54,20 @@ data class Service(
     @OneToMany(mappedBy = "service", cascade = [CascadeType.ALL], orphanRemoval = true)
     val bookings: MutableSet<Booking> = mutableSetOf()
 ) {
+    constructor() : this(
+        shop = Shop(),
+        name = "",
+        description = "",
+        durationMinutes = 0,
+        price = 0.0,
+        imageUrl = null,
+        isActive = true,
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now(),
+        employees = mutableSetOf(),
+        bookings = mutableSetOf()
+    )
+
     @PreUpdate
     fun preUpdate() {
         updatedAt = LocalDateTime.now()

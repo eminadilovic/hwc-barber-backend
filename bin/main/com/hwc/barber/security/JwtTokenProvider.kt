@@ -37,7 +37,7 @@ class JwtTokenProvider {
     }
 
     fun getUserIdFromToken(token: String): Long {
-        val claims = Jwts.parser()
+        val claims = Jwts.parserBuilder()
             .setSigningKey(key)
             .build()
             .parseClaimsJws(token)
@@ -48,7 +48,7 @@ class JwtTokenProvider {
 
     fun validateToken(token: String): Boolean {
         try {
-            Jwts.parser()
+            Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)

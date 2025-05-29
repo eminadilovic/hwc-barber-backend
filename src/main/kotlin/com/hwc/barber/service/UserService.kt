@@ -19,4 +19,8 @@ interface UserService : UserDetailsService {
     fun getBookings(userId: Long): List<BookingDTO>
     fun getReviews(userId: Long): List<ReviewDTO>
     fun getShops(userId: Long): List<ShopDTO>
+    
+    // OAuth2 methods
+    fun findByEmail(email: String): UserDTO?
+    fun createOAuth2User(email: String, name: String): UserDTO
 } 

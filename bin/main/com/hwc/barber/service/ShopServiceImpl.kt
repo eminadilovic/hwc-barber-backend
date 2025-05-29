@@ -50,7 +50,8 @@ class ShopServiceImpl(
             zipCode = shopCreateDTO.zipCode,
             phoneNumber = shopCreateDTO.phoneNumber,
             email = shopCreateDTO.email,
-            imageUrl = shopCreateDTO.imageUrl,
+            logoUrl = shopCreateDTO.logoUrl,
+            imageUrls = shopCreateDTO.imageUrls.toMutableSet(),
             openingTime = shopCreateDTO.openingTime,
             closingTime = shopCreateDTO.closingTime,
             website = shopCreateDTO.website
@@ -75,7 +76,8 @@ class ShopServiceImpl(
         shopUpdateDTO.zipCode?.let { shop.zipCode = it }
         shopUpdateDTO.phoneNumber?.let { shop.phoneNumber = it }
         shopUpdateDTO.email?.let { shop.email = it }
-        shopUpdateDTO.imageUrl?.let { shop.imageUrl = it }
+        shopUpdateDTO.logoUrl?.let { shop.logoUrl = it }
+        shopUpdateDTO.imageUrls?.let { shop.imageUrls = it.toMutableSet() }
         shopUpdateDTO.openingTime?.let { shop.openingTime = it }
         shopUpdateDTO.closingTime?.let { shop.closingTime = it }
         shopUpdateDTO.website?.let { shop.website = it }
@@ -118,7 +120,8 @@ class ShopServiceImpl(
         zipCode = zipCode,
         phoneNumber = phoneNumber,
         email = email ?: "",
-        imageUrl = imageUrl,
+        logoUrl = logoUrl,
+        imageUrls = imageUrls.toList(),
         website = website,
         openingTime = openingTime?.format(DateTimeFormatter.ofPattern("HH:mm")),
         closingTime = closingTime?.format(DateTimeFormatter.ofPattern("HH:mm")),

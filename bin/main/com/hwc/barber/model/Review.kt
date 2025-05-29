@@ -3,7 +3,6 @@ package com.hwc.barber.model
 import jakarta.persistence.*
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.Size
 import java.time.LocalDateTime
 
 @Entity
@@ -18,26 +17,32 @@ data class Review(
     val shop: Shop,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
-    val customer: User,
+    @JoinColumn(name = "user_id", nullable = false)
+    val user: User,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id")
-    val employee: Employee? = null,
-
-    @field:Min(1)
-    @field:Max(5)
+    @Min(1)
+    @Max(5)
+    @Column(name = "rating", nullable = false)
     var rating: Int,
 
-    @field:Size(max = 1000)
+    @Column(name = "comment")
     var comment: String? = null,
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
-    @Column(nullable = false)
+    @Column(name = "updated_at", nullable = false)
     var updatedAt: LocalDateTime = LocalDateTime.now()
 ) {
+    constructor() : this(
+        shop = Shop(),
+        user = User(),
+        rating = 0,
+        comment = null,
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now()
+    )
+
     @PreUpdate
     fun onUpdate() {
         updatedAt = LocalDateTime.now()

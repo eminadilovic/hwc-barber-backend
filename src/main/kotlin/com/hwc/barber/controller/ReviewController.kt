@@ -66,22 +66,22 @@ class ReviewController(
         ResponseEntity.ok(reviewService.getReviewsByShop(shopId))
 
     @Operation(
-        summary = "Get reviews by customer",
-        description = "Retrieves all reviews by a specific customer"
+        summary = "Get reviews by user",
+        description = "Retrieves all reviews by a specific user"
     )
     @ApiResponses(value = [
-        ApiResponse(responseCode = "200", description = "Successfully retrieved customer reviews"),
+        ApiResponse(responseCode = "200", description = "Successfully retrieved user reviews"),
         ApiResponse(responseCode = "403", description = "Access denied"),
         ApiResponse(responseCode = "500", description = "Internal server error")
     ])
     @SecurityRequirement(name = "bearerAuth")
-    @GetMapping("/customer/{customerId}")
-    @PreAuthorize("hasRole('CUSTOMER') and #customerId == authentication.principal.id")
-    fun getReviewsByCustomer(
-        @Parameter(description = "ID of the customer")
-        @PathVariable customerId: Long
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
+    fun getReviewsByUser(
+        @Parameter(description = "ID of the user")
+        @PathVariable userId: Long
     ): ResponseEntity<List<ReviewDTO>> =
-        ResponseEntity.ok(reviewService.getReviewsByCustomer(customerId))
+        ResponseEntity.ok(reviewService.getReviewsByUser(userId))
 
     @Operation(
         summary = "Get reviews by rating",
@@ -130,7 +130,7 @@ class ReviewController(
 
     @Operation(
         summary = "Create a new review",
-        description = "Creates a new review for a specific shop by a customer"
+        description = "Creates a new review for a specific shop by a user"
     )
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Successfully created the review"),
@@ -139,13 +139,13 @@ class ReviewController(
         ApiResponse(responseCode = "500", description = "Internal server error")
     ])
     @SecurityRequirement(name = "bearerAuth")
-    @PostMapping("/shop/{shopId}/customer/{customerId}")
-    @PreAuthorize("hasRole('CUSTOMER') and #customerId == authentication.principal.id")
+    @PostMapping("/shop/{shopId}/user/{userId}")
+    @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
     fun createReview(
         @Parameter(description = "ID of the shop")
         @PathVariable shopId: Long,
-        @Parameter(description = "ID of the customer")
-        @PathVariable customerId: Long,
+        @Parameter(description = "ID of the user")
+        @PathVariable userId: Long,
         @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Review data to create",
             required = true,
@@ -153,11 +153,11 @@ class ReviewController(
         )
         @RequestBody reviewCreateDTO: ReviewCreateDTO
     ): ResponseEntity<ReviewDTO> =
-        ResponseEntity.ok(reviewService.createReview(shopId, customerId, reviewCreateDTO))
+        ResponseEntity.ok(reviewService.createReview(shopId, userId, reviewCreateDTO))
 
     @Operation(
         summary = "Update an existing review",
-        description = "Updates an existing review by a customer"
+        description = "Updates an existing review by a user"
     )
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Successfully updated the review"),
@@ -167,15 +167,15 @@ class ReviewController(
         ApiResponse(responseCode = "500", description = "Internal server error")
     ])
     @SecurityRequirement(name = "bearerAuth")
-    @PutMapping("/{id}/shop/{shopId}/customer/{customerId}")
-    @PreAuthorize("hasRole('CUSTOMER') and #customerId == authentication.principal.id")
+    @PutMapping("/{id}/shop/{shopId}/user/{userId}")
+    @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
     fun updateReview(
         @Parameter(description = "ID of the review to update")
         @PathVariable id: Long,
         @Parameter(description = "ID of the shop")
         @PathVariable shopId: Long,
-        @Parameter(description = "ID of the customer")
-        @PathVariable customerId: Long,
+        @Parameter(description = "ID of the user")
+        @PathVariable userId: Long,
         @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "Review data to update",
             required = true,
@@ -183,11 +183,11 @@ class ReviewController(
         )
         @RequestBody reviewUpdateDTO: ReviewUpdateDTO
     ): ResponseEntity<ReviewDTO> =
-        ResponseEntity.ok(reviewService.updateReview(shopId, customerId, id, reviewUpdateDTO))
+        ResponseEntity.ok(reviewService.updateReview(shopId, userId, id, reviewUpdateDTO))
 
     @Operation(
         summary = "Delete a review",
-        description = "Deletes an existing review by a customer"
+        description = "Deletes an existing review by a user"
     )
     @ApiResponses(value = [
         ApiResponse(responseCode = "204", description = "Successfully deleted the review"),
